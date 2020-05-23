@@ -16,3 +16,5 @@
 ## Auto delete posts after every 15 days
 
 - Posts must have a created_at field
+
+## Save posts for all users to query
