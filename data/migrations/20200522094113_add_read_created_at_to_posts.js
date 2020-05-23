@@ -1,6 +1,6 @@
 exports.up = function (knex) {
   knex.schema.table("posts", (table) => {
-    table.boolean("read").defaultTo(false);
+    table.boolean("read").notNullable().defaultTo(false);
     table.timestamp("created_at").defaultTo(knex.fn.now());
   });
 };

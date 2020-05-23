@@ -1,5 +1,7 @@
 # Posts Table
 
+posts
+
 id (increments)
 title:string
 comments:string

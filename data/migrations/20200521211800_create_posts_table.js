@@ -1,11 +1,11 @@
 exports.up = function (knex) {
   return knex.schema.createTable("posts", (table) => {
     table.increments();
-    table.string("title");
-    table.string("comments");
-    table.string("url");
-    table.integer("reddit_id");
-    table.string("user");
+    table.string("title").notNullable();
+    table.string("comments").notNullable();
+    table.string("url").notNullable();
+    table.integer("reddit_id").notNullable();
+    table.string("user").notNullable();
   });
 };
 

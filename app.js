@@ -13,16 +13,19 @@ const app = express();
 const databaseEnvironment = "development";
 const db = knex(knexfile[databaseEnvironment]);
 
-// redditCronJob.start();
+// redditCronJob(db).start();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+db("master_posts").then((masterPosts) =>
+  console.log("master_posts", masterPosts)
+);
 db("titles").then((titles) => console.log("titles", titles));
 db("users").then((users) => console.log("users", users));
 db("posts").then((posts) => console.log("posts", posts));
 
-app.post("/save-title", async (req, res) => {
+app.post("/titles", async (req, res) => {
   const { user, title } = req.body;
   await db("titles").insert({ user: user, title: title });
   await db("titles").then((titles) => console.log("titles", titles));
@@ -47,6 +50,14 @@ app.post("/posts", async (req, res) => {
   });
   await db("posts").then((posts) => console.log("posts", posts));
   res.status(201).json({ message: "Post added to your list." });
+});
+
+app.post("/master-posts", async (req, res) => {
+  const { reddit_posts } = req.body;
+  await db("master_posts").insert({
+    reddit_posts: JSON.stringify(reddit_posts),
+  });
+  res.status(201).json({ message: "Master posts has been updated." });
 });
 
 app.get("/api/public", function (req, res) {

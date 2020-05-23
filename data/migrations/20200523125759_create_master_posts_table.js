@@ -1,8 +1,8 @@
 exports.up = function (knex) {
   return knex.schema.createTable("master_posts", (table) => {
     table.increments();
-    table.timestamp("date");
-    table.json("reddit_posts");
+    table.timestamp("date").defaultTo(knex.fn.now());
+    table.json("reddit_posts").notNullable();
   });
 };
 
