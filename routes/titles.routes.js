@@ -1,9 +1,7 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
+const titlesController = require('../controllers/titles.controller');
 
-router.post("/titles", async (req, res) => {
-  const { user, title } = req.body;
-  await db("titles").insert({ user: user, title: title });
-  await db("titles").then((titles) => console.log("titles", titles));
-  res.status(201).json({ message: "Title added to your list." });
-});
+router.post('/titles', titlesController.insertTitle);
+
+module.exports = router;
