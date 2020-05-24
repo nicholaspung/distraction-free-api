@@ -7,10 +7,15 @@ const insert = (reddit_posts) => {
 };
 
 const get = () => {
-  return db.select('*').from('master_posts');
+  return db('master_posts');
+};
+
+const del = (date) => {
+  return db('master_posts').where('date', '<', date).del();
 };
 
 module.exports = {
   insert,
   get,
+  del,
 };

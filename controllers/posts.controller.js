@@ -10,6 +10,18 @@ const insertPost = async (req, res) => {
   }
 };
 
+const getPosts = async (req, res) => {
+  try {
+    // somehow get the user, either through body or through Auth0??
+    const { user } = req.body;
+    const response = await postsService.get(user);
+    res.status(200).json({ posts: response });
+  } catch (err) {
+    res.status(500).json({ error: err.toString() });
+  }
+};
+
 module.exports = {
   insertPost,
+  getPosts,
 };

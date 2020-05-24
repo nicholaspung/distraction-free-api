@@ -30,6 +30,7 @@ app.get('/api/public', function (req, res) {
 });
 
 app.get('/api/private', checkJwt, function (req, res) {
+  console.log(req.user);
   res.json({
     message: 'Hello from a private endpoint! You need to be authenticated to see this.',
   });
