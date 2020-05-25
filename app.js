@@ -10,7 +10,9 @@ const checkJwt = require('./lib/middleware/checkJwt');
 const app = express();
 
 // const { redditCronJob } = require("./cron/redditCron");
+// const { deletePostsCronJob } = require('./cron/deletePostsCron');
 // redditCronJob(db).start();
+// deletePostsCronJob(db).start();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
