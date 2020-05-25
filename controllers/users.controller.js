@@ -1,5 +1,15 @@
 const usersService = require('../services/users.service');
 
+const getUser = async (req, res) => {
+  try {
+    const { user } = req.body;
+    const response = usersService.get(user);
+    res.status(200).json({ user: response });
+  } catch (err) {
+    res.status(500).json({ error: err.toString() });
+  }
+};
+
 const insertUser = async (req, res) => {
   try {
     const { user } = req.body;
@@ -10,6 +20,18 @@ const insertUser = async (req, res) => {
   }
 };
 
+const deleteUser = async (req, res) => {
+  try {
+    const { user } = req.body;
+    await usersService.del(user);
+    res.status(204).json({ message: 'User has been deleted.' });
+  } catch (err) {
+    res.status(500).json({ error: err.toString() });
+  }
+};
+
 module.exports = {
+  getUser,
   insertUser,
+  deleteUser,
 };

@@ -1,13 +1,13 @@
 const db = require('../data/config');
 
+const get = () => {
+  return db('master_posts');
+};
+
 const insert = (reddit_posts) => {
   return db('master_posts').insert({
     reddit_posts: reddit_posts,
   });
-};
-
-const get = () => {
-  return db('master_posts');
 };
 
 const del = (date) => {
@@ -15,7 +15,7 @@ const del = (date) => {
 };
 
 module.exports = {
-  insert,
   get,
+  insert,
   del,
 };
