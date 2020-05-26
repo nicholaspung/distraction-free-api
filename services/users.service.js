@@ -1,11 +1,11 @@
 const db = require('../data/config');
 
-const insert = ({ user }) => {
-  return db('users').insert({ user: user });
-};
-
 const get = (user) => {
   return db('users').where('user', user);
+};
+
+const insert = (user) => {
+  return db('users').insert({ user: user });
 };
 
 const del = (user) => {
@@ -13,7 +13,7 @@ const del = (user) => {
 };
 
 module.exports = {
-  insert,
   get,
+  insert,
   del,
 };

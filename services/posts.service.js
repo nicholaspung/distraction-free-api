@@ -4,6 +4,11 @@ const get = (user) => {
   return db('posts').where('user', user);
 };
 
+const getFilteredPosts = async (user) => {
+  const titles = await db('titles').where('user', user);
+  const masterPosts = await db('master_posts');
+};
+
 const insert = ({ title, comments, url, reddit_id, user }) => {
   return db('posts').insert({
     title: title,
@@ -24,6 +29,7 @@ const del = (date) => {
 
 module.exports = {
   get,
+  getFilteredPosts,
   insert,
   update,
   del,

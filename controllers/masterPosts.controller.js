@@ -9,7 +9,7 @@ const getPosts = async (req, res) => {
   }
 };
 
-const insertPost = async (req, res) => {
+const insertPosts = async (req, res) => {
   try {
     const { reddit_posts } = req.body;
     await masterPostsService.insert(reddit_posts);
@@ -19,7 +19,18 @@ const insertPost = async (req, res) => {
   }
 };
 
+const deletePost = async (req, res) => {
+  try {
+    const { id } = req.body;
+    await masterPostsService.delPost(id);
+    res.status(204);
+  } catch (err) {
+    res.status(500).json({ error: err.toString() });
+  }
+};
+
 module.exports = {
   getPosts,
-  insertPost,
+  insertPosts,
+  deletePost,
 };

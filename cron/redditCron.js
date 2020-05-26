@@ -20,7 +20,6 @@ const redditCronJob = (db) => {
           }));
           return info;
         });
-        console.log(redditPosts);
         await db('master_posts').insert({
           reddit_posts: JSON.stringify(redditPosts),
         });

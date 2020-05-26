@@ -10,6 +10,10 @@ const insert = (reddit_posts) => {
   });
 };
 
+const delPost = (id) => {
+  return db('master_posts').where('id', id).del();
+};
+
 const del = (date) => {
   return db('master_posts').where('date', '<', date).del();
 };
@@ -17,5 +21,6 @@ const del = (date) => {
 module.exports = {
   get,
   insert,
+  delPost,
   del,
 };

@@ -11,10 +11,20 @@ const getPosts = async (req, res) => {
   }
 };
 
+const getPostsTogether = async (req, res) => {
+  try {
+    const { user } = req.body;
+    const response = await postsService.getFilteredPosts(user);
+    res.status(200).json({ posts: response });
+  } catch (err) {
+    res.status(500).json({ error: err.toString() });
+  }
+};
+
 const insertPost = async (req, res) => {
   try {
     const { title, comments, url, reddit_id, user } = req.body;
-    await postsService.insertPost({ title, comments, url, reddit_id, user });
+    await postsService.insert({ title, comments, url, reddit_id, user });
     res.status(201).json({ message: 'Post added to your list.' });
   } catch (err) {
     res.status(500).json({ error: err.toString() });
@@ -35,7 +45,7 @@ const deletePosts = async (req, res) => {
   try {
     const { date } = req.body;
     await postsService.del(date);
-    res.status(204).json({ message: 'Old posts have been deleted.' });
+    res.status(204);
   } catch (err) {
     res.status(500).json({ error: err.toString() });
   }
@@ -43,6 +53,7 @@ const deletePosts = async (req, res) => {
 
 module.exports = {
   getPosts,
+  getPostsTogether,
   insertPost,
   updatePost,
   deletePosts,

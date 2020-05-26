@@ -10,7 +10,7 @@ const deletePostsCronJob = (db) => {
       try {
         await db('master_posts').where('date', '<', cutoff).del();
         await db('posts').where('date', '<', cutoff).del();
-        console.log('You will see this message on every minute.');
+        console.log('You will see this message on every 7th day of the month.');
       } catch (err) {
         console.log(err);
       }
