@@ -8,6 +8,7 @@ const checkJwt = require('./lib/middleware/checkJwt');
 
 const app = express();
 
+// Cron Jobs
 // const { redditCronJob } = require('./cron/redditCron');
 // const { deletePostsCronJob } = require('./cron/deletePostsCron');
 // redditCronJob(db).start();
