@@ -5,7 +5,7 @@ const get = (user) => {
 };
 
 const insert = (user) => {
-  return db('users').insert({ user: user });
+  return db('users').insert({ user: user, last_queried: new Date() });
 };
 
 const del = (user) => {

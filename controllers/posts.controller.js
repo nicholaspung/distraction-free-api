@@ -14,8 +14,8 @@ const getPosts = async (req, res) => {
 const getPostsTogether = async (req, res) => {
   try {
     const { user } = req.body;
-    const response = await postsService.getFilteredPosts(user);
-    res.status(200).json({ posts: response });
+    await postsService.getFilteredPosts(user);
+    res.status(200).json({ message: 'Reddit posts have been added.' });
   } catch (err) {
     res.status(500).json({ error: err.toString() });
   }
@@ -45,7 +45,18 @@ const deletePosts = async (req, res) => {
   try {
     const { date } = req.body;
     await postsService.del(date);
-    res.status(204);
+    res.status(204).send();
+  } catch (err) {
+    res.status(500).json({ error: err.toString() });
+  }
+};
+
+// Only used during debugging
+const deletePostById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await postsService.delId(parseInt(id));
+    res.status(204).send();
   } catch (err) {
     res.status(500).json({ error: err.toString() });
   }
@@ -57,4 +68,5 @@ module.exports = {
   insertPost,
   updatePost,
   deletePosts,
+  deletePostById,
 };
