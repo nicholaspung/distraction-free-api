@@ -51,6 +51,16 @@ const deletePosts = async (req, res) => {
   }
 };
 
+const deleteTitleAndPosts = async (req, res) => {
+  try {
+    const { user, title } = req.body;
+    await postsService.delTitleAndPosts({ user, title });
+    res.status(204).send();
+  } catch (err) {
+    res.status(500).json({ error: err.toString() });
+  }
+};
+
 // Only used during debugging
 const deletePostById = async (req, res) => {
   try {
@@ -68,5 +78,6 @@ module.exports = {
   insertPost,
   updatePost,
   deletePosts,
+  deleteTitleAndPosts,
   deletePostById,
 };

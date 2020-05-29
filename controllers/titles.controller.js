@@ -35,7 +35,7 @@ const deleteTitle = async (req, res) => {
   try {
     const { user, title } = req.body;
     await titlesService.del({ user, title });
-    res.status(204);
+    res.status(204).send();
   } catch (err) {
     res.status(500).json({ error: err.toString() });
   }

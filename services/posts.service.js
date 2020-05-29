@@ -1,5 +1,7 @@
 const db = require('../data/config');
 const FuzzySearch = require('fuzzy-search');
+const titlesService = require('./titles.service');
+const uniqueArrOfObj = require('../lib/utils/uniqueArrOfObj');
 
 const get = (user) => {
   return db('posts').where('user', user);
@@ -10,7 +12,8 @@ const getFilteredPosts = async (user) => {
   const titles = await db('titles').where('user', user);
   const masterPosts = await db('master_posts');
   const titlesArray = titles.map((item) => item.title);
-  const redditPosts = JSON.parse(masterPosts.map((item) => item.reddit_posts));
+  const masterPostsArray = masterPosts.flatMap((item) => JSON.parse(item.reddit_posts));
+  const redditPosts = uniqueArrOfObj(masterPostsArray, 'reddit_id');
   const searcher = new FuzzySearch(redditPosts, ['title']);
 
   let filteredPosts = [];
@@ -56,6 +59,13 @@ const del = (date) => {
   return db('posts').where('created_at', '<', date).andWhere('read', true).del();
 };
 
+const delTitleAndPosts = ({ user, title }) => {
+  return db.transaction(async (trx) => {
+    await titlesService.del({ user, title }).transacting(trx);
+    await db('posts').where('title', title).transacting(trx);
+  });
+};
+
 // Only used during debugging
 const delId = (id) => {
   return db('posts').where('id', id).del();
@@ -67,5 +77,6 @@ module.exports = {
   insert,
   update,
   del,
+  delTitleAndPosts,
   delId,
 };

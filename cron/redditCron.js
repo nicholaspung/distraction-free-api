@@ -1,10 +1,11 @@
 const CronJob = require('cron').CronJob;
 const axios = require('axios').default;
+const masterPostsService = require('../services/masterPosts.service');
 
 const mangaLink = 'https://www.reddit.com';
 
 // Pings every on every 15th minute of every hour
-const redditCronJob = (db) => {
+const redditCronJob = () => {
   return new CronJob(
     '*/15 * * * * *', // every 15 seconds
     // "0 */15 * * * *",
@@ -20,9 +21,7 @@ const redditCronJob = (db) => {
           }));
           return info;
         });
-        await db('master_posts').insert({
-          reddit_posts: JSON.stringify(redditPosts),
-        });
+        await masterPostsService.insert(redditPosts);
         console.log('You will see this message on every 15th minute of every hour.');
       } catch (err) {
         console.log(err);

@@ -23,7 +23,7 @@ const deletePost = async (req, res) => {
   try {
     const { id } = req.body;
     await masterPostsService.delPost(id);
-    res.status(204);
+    res.status(204).send();
   } catch (err) {
     res.status(500).json({ error: err.toString() });
   }
