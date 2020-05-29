@@ -11,8 +11,8 @@ const app = express();
 // Cron Jobs
 // const { redditCronJob } = require('./cron/redditCron');
 // const { deletePostsCronJob } = require('./cron/deletePostsCron');
-// redditCronJob(db).start();
-// deletePostsCronJob(db).start();
+// redditCronJob().start();
+// deletePostsCronJob().start();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

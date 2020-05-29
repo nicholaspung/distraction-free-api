@@ -6,7 +6,7 @@ const get = () => {
 
 const insert = (reddit_posts) => {
   return db('master_posts').insert({
-    reddit_posts: reddit_posts,
+    reddit_posts: JSON.stringify(reddit_posts),
     date: new Date(),
   });
 };

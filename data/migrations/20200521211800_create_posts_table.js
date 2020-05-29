@@ -7,7 +7,7 @@ exports.up = function (knex) {
     table.integer('reddit_id').notNullable();
     table.string('user').notNullable();
     table.boolean('read').notNullable().defaultTo(false);
-    table.timestamp('created_at').defaultTo(knex.fn.now());
+    table.timestamp('created_at').notNullable();
   });
 };
 

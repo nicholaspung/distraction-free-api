@@ -9,6 +9,7 @@ router.delete('/posts', postsController.deletePosts);
 
 // Only used during debugging
 router.get('/posts-together', postsController.getPostsTogether);
+router.delete('/posts-title', postsController.deleteTitleAndPosts);
 router.delete('/posts/:id', postsController.deletePostById);
 
 module.exports = router;

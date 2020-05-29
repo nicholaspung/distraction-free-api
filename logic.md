@@ -2,26 +2,26 @@
 
 ## Save reddit posts to db
 
-- Get Reddit posts every 15th minute of every hour
-- Get posts from reddit on a daily schedule (~700 rows of data from Reddit)
+- [x] Get Reddit posts every 15th minute of every hour
+- [x] Get posts from reddit on a daily schedule (~700 rows of data from Reddit)
 
 ## Auto delete Reddit Posts after 7 days
 
-- Exactly 7 days from initial load, find data where date difference > 7, and delete
-  - Do for both master_posts and posts table
+- [x] Exactly 7 days from initial load, find data where date difference > 7, and delete
+  - [x] Do for both master_posts and posts table
 
 ## Titles
 
-- When user adds a title, add to 'Titles' table
-- When user deletes a title, delete from 'Titles' table
-  - Also delete title from 'Posts' table
-- When user loads page, get titles from 'Titles' table
+- [x] When user adds a title, add to 'Titles' table
+- [x] When user deletes a title, delete from 'Titles' table
+  - [] Also delete title from 'Posts' table
+- [] When user loads page, get titles from 'Titles' table
 
 ## Posts
 
-- When user has initial load on page for first day, do a join between 'Users', 'Titles', and 'Master Posts' tables
-  - This is then added to the 'Post' table and sent over to user, and filtered to where read boolean equal to false
-  - User has a 'last_queried' field that is then used to minimize amount of searching needed to do
-- When user decides to reload reddit posts, they can request it again
-  - User also has option to check or uncheck if they want the latest posts everytime they load the page
-- When user has marked a post read, update posts table
+- [] When user has initial load on page for first day, do a join between 'Users', 'Titles', and 'Master Posts' tables
+  - [] This is then added to the 'Post' table and sent over to user, and filtered to where read boolean equal to false
+  - [] User has a 'last_queried' field that is then used to minimize amount of searching needed to do
+- [] When user decides to reload reddit posts, they can request it again
+  - [] User also has option to check or uncheck if they want the latest posts everytime they load the page
+- [] When user has marked a post read, update posts table
