@@ -14,14 +14,19 @@
 
 - [x] When user adds a title, add to 'Titles' table
 - [x] When user deletes a title, delete from 'Titles' table
-  - [] Also delete title from 'Posts' table
+  - [x] Also delete title from 'Posts' table
 - [] When user loads page, get titles from 'Titles' table
 
 ## Posts
 
-- [] When user has initial load on page for first day, do a join between 'Users', 'Titles', and 'Master Posts' tables
-  - [] This is then added to the 'Post' table and sent over to user, and filtered to where read boolean equal to false
-  - [] User has a 'last_queried' field that is then used to minimize amount of searching needed to do
-- [] When user decides to reload reddit posts, they can request it again
+- [x] When user has initial load on page for first day, do a join between 'Users', 'Titles', and 'Master Posts' tables
+  - [x] This is then added to the 'Post' table
+  - [x] User has a 'last_queried' field that is then used to minimize amount of searching needed to do
+- [x] When user decides to reload reddit posts, they can request it again
   - [] User also has option to check or uncheck if they want the latest posts everytime they load the page
-- [] When user has marked a post read, update posts table
+- [x] When user has marked a post read, update posts table
+- [x] When user requests posts, filter to where read boolean equal to false
+
+# To-dos
+
+- [] Add documentation to routes

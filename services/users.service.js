@@ -8,6 +8,10 @@ const insert = (user) => {
   return db('users').insert({ user: user, last_queried: new Date() });
 };
 
+const updateLastQueried = (user) => {
+  return db('users').where('user', user).update({ last_queried: new Date() });
+};
+
 const del = (user) => {
   return db('users').where('user', user).del();
 };
@@ -15,5 +19,6 @@ const del = (user) => {
 module.exports = {
   get,
   insert,
+  updateLastQueried,
   del,
 };

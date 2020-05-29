@@ -1,16 +1,22 @@
 const db = require('../data/config');
 const FuzzySearch = require('fuzzy-search');
+const usersService = require('./users.service');
 const titlesService = require('./titles.service');
+const masterPostsService = require('./masterPosts.service');
 const uniqueArrOfObj = require('../lib/utils/uniqueArrOfObj');
 
 const get = (user) => {
-  return db('posts').where('user', user);
+  return db('posts').where('user', user).andWhere('read', true);
 };
 
 // Not Scalable
+// Currently has duplicate titles
 const getFilteredPosts = async (user) => {
-  const titles = await db('titles').where('user', user);
-  const masterPosts = await db('master_posts');
+  // const users = await usersService.get(user);
+  // const { last_queried } = users[0];
+  const titles = await titlesService.get(user);
+  // const masterPosts = await masterPostsService.getFromLastQueried(new Date(last_queried));
+  const masterPosts = await masterPostsService.get(user);
   const titlesArray = titles.map((item) => item.title);
   const masterPostsArray = masterPosts.flatMap((item) => JSON.parse(item.reddit_posts));
   const redditPosts = uniqueArrOfObj(masterPostsArray, 'reddit_id');
@@ -19,7 +25,12 @@ const getFilteredPosts = async (user) => {
   let filteredPosts = [];
   titlesArray.forEach((title) => {
     const result = searcher.search(title);
-    filteredPosts.push(result);
+    filteredPosts.push(
+      result.map((post) => {
+        post.search_title = title;
+        return post;
+      })
+    );
   });
   let filteredPostsWithUser = filteredPosts.flat().map((post) => {
     post.user = user;
@@ -28,18 +39,29 @@ const getFilteredPosts = async (user) => {
 
   async function insertPostsIntoDb(posts) {
     const results = [];
-    posts.forEach(({ title, comments, url, reddit_id, user }) => {
+    posts.forEach(({ title, comments, url, reddit_id, user, search_title }) => {
       results.push(
-        insert({ title, comments, url, reddit_id, user, read: false, created_at: new Date() })
+        insert({
+          title,
+          comments,
+          url,
+          reddit_id,
+          user,
+          read: false,
+          created_at: new Date(),
+          search_title,
+        })
       );
     });
     return await Promise.all(results);
   }
 
   await insertPostsIntoDb(filteredPostsWithUser);
+
+  await usersService.updateLastQueried(user);
 };
 
-const insert = ({ title, comments, url, reddit_id, user }) => {
+const insert = ({ title, comments, url, reddit_id, user, search_title }) => {
   return db('posts').insert({
     title: title,
     comments: comments,
@@ -48,6 +70,7 @@ const insert = ({ title, comments, url, reddit_id, user }) => {
     user: user,
     read: false,
     created_at: new Date(),
+    search_title: search_title,
   });
 };
 
@@ -62,7 +85,7 @@ const del = (date) => {
 const delTitleAndPosts = ({ user, title }) => {
   return db.transaction(async (trx) => {
     await titlesService.del({ user, title }).transacting(trx);
-    await db('posts').where('title', title).transacting(trx);
+    await db('posts').where('search_title', title).del().transacting(trx);
   });
 };
 
