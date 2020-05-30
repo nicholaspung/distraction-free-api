@@ -14,8 +14,8 @@ const getPosts = async (req, res) => {
 const getPostsTogether = async (req, res) => {
   try {
     const { user } = req.body;
-    await postsService.getFilteredPosts(user);
-    res.status(200).json({ message: 'Reddit posts have been added.' });
+    const filteredPosts = await postsService.getFilteredPosts(user);
+    res.status(200).json({ posts: filteredPosts });
   } catch (err) {
     res.status(500).json({ error: err.toString() });
   }
