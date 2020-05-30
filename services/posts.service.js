@@ -6,7 +6,7 @@ const masterPostsService = require('./masterPosts.service');
 const uniqueArrOfObj = require('../lib/utils/uniqueArrOfObj');
 
 const get = (user) => {
-  return db('posts').where('user', user).andWhere('read', true);
+  return db('posts').where('user', user).andWhere('read', false);
 };
 
 // Not Scalable
@@ -59,6 +59,8 @@ const getFilteredPosts = async (user) => {
   await insertPostsIntoDb(filteredPostsWithUser);
 
   await usersService.updateLastQueried(user);
+
+  return get(user);
 };
 
 const insert = ({ title, comments, url, reddit_id, user, search_title }) => {
