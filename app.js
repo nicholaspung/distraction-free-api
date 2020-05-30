@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const router = require('./routes');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 
 // For Auth0
 const jwtAuthz = require('express-jwt-authz');
@@ -17,7 +19,8 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use(router);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api', router);
 
 // Sample routes for Auth0
 app.get('/api/public', function (req, res) {
