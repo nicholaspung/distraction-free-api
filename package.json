@@ -20,7 +20,8 @@
     "fuzzy-search": "^3.2.1",
     "jwks-rsa": "^1.8.0",
     "knex": "^0.21.1",
-    "sqlite3": "^4.2.0"
+    "sqlite3": "^4.2.0",
+    "swagger-ui-express": "^4.1.4"
   },
   "devDependencies": {
     "eslint": "^7.1.0",

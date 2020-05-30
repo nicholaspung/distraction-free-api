@@ -6,9 +6,9 @@ const postsRouter = require('./posts.routes');
 const titlesRouter = require('./titles.routes');
 const usersRouter = require('./users.routes');
 
-router.use('/api', masterPostsRouter);
-router.use('/api', postsRouter);
-router.use('/api', titlesRouter);
-router.use('/api', usersRouter);
+router.use('/', masterPostsRouter);
+router.use('/', postsRouter);
+router.use('/', titlesRouter);
+router.use('/', usersRouter);
 
 module.exports = router;

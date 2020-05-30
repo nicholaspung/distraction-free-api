@@ -30,3 +30,4 @@
 # To-dos
 
 - [] Add documentation to routes
+  - https://editor.swagger.io/
