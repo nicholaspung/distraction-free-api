@@ -29,5 +29,6 @@
 
 # To-dos
 
-- [] Add documentation to routes
+- [x] Add documentation to routes
   - https://editor.swagger.io/
+- [] Add testing to API

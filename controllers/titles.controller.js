@@ -23,8 +23,8 @@ const insertTitle = async (req, res) => {
 
 const updateTitle = async (req, res) => {
   try {
-    const { user, prevTitle, newTitle } = req.body;
-    await titlesService.update({ user, prevTitle, newTitle });
+    const { user, id, title } = req.body;
+    await titlesService.update({ user, id, title });
     res.status(200).json({ message: 'Title has been updated.' });
   } catch (err) {
     res.status(500).json({ error: err.toString() });

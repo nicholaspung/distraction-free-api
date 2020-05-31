@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const router = require('./routes');
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger.json');
+const swaggerDocument = require('./data/dbSchemas/swagger.json');
 
 // For Auth0
 const jwtAuthz = require('express-jwt-authz');
@@ -11,15 +11,15 @@ const checkJwt = require('./lib/middleware/checkJwt');
 const app = express();
 
 // Cron Jobs
-// const { redditCronJob } = require('./cron/redditCron');
-// const { deletePostsCronJob } = require('./cron/deletePostsCron');
+// const { redditCronJob } = require('./lib/cron/redditCron');
+// const { deletePostsCronJob } = require('./lib/cron/deletePostsCron');
 // redditCronJob().start();
 // deletePostsCronJob().start();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/api', router);
 
 // Sample routes for Auth0
