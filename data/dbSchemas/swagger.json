@@ -433,6 +433,9 @@
         "consumes": [
           "application/json"
         ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "body",
@@ -440,19 +443,30 @@
             "description": "Adds titles",
             "required": true,
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Pet"
+              "type": "object",
+              "properties": {
+                "user": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                }
               }
             }
           }
         ],
         "responses": {
           "201": {
-            "description": "Successful operation"
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
           },
           "500": {
-            "description": "Error"
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
         }
       },
@@ -470,19 +484,33 @@
             "description": "Updates title",
             "required": true,
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Pet"
+              "type": "object",
+              "properties": {
+                "user": {
+                  "type": "string"
+                },
+                "id": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                }
               }
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Successful operation"
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
           },
           "500": {
-            "description": "Error"
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
         }
       },
@@ -500,9 +528,14 @@
             "description": "Delete title from user",
             "required": true,
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Pet"
+              "type": "object",
+              "properties": {
+                "user": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                }
               }
             }
           }
@@ -512,7 +545,10 @@
             "description": "Successful operation"
           },
           "500": {
-            "description": "Error"
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
         }
       }
@@ -535,10 +571,7 @@
             "description": "Gets user",
             "required": true,
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Pet"
-              }
+              "$ref": "#/definitions/User"
             }
           }
         ],
@@ -546,14 +579,14 @@
           "200": {
             "description": "Successful operation",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Pet"
-              }
+              "$ref": "#/definitions/User"
             }
           },
           "500": {
-            "description": "Error"
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
         }
       },
@@ -571,19 +604,22 @@
             "description": "Adds a user",
             "required": true,
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Pet"
-              }
+              "$ref": "#/definitions/User"
             }
           }
         ],
         "responses": {
           "201": {
-            "description": "Successful operation"
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
           },
           "500": {
-            "description": "Error"
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
         }
       },
@@ -601,10 +637,7 @@
             "description": "Deletes a user",
             "required": true,
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Pet"
-              }
+              "$ref": "#/definitions/User"
             }
           }
         ],
@@ -613,7 +646,10 @@
             "description": "Successful operation"
           },
           "500": {
-            "description": "Error"
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
         },
         "security": [
