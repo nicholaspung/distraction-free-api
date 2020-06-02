@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "cross-env DB_ENV=testing jest --watch"
+    "test": "cross-env DB_ENV=testing jest --watch",
+    "test:leaks": "cross-env DB_ENV=testing jest --watch --runInBand --detectOpenHandles"
   },
   "author": "",
   "license": "ISC",
