@@ -39,7 +39,7 @@ const getFilteredPosts = async (user) => {
 
   async function insertPostsIntoDb(posts) {
     const results = [];
-    posts.forEach(({ title, comments, url, reddit_id, user, search_title }) => {
+    posts.forEach(({ title, comments, url, reddit_id, user, search_title, created_at }) => {
       results.push(
         insert({
           title,
@@ -48,7 +48,7 @@ const getFilteredPosts = async (user) => {
           reddit_id,
           user,
           read: false,
-          created_at: new Date(),
+          created_at: created_at || new Date(),
           search_title,
         })
       );
@@ -63,15 +63,15 @@ const getFilteredPosts = async (user) => {
   return get(user);
 };
 
-const insert = ({ title, comments, url, reddit_id, user, search_title }) => {
+const insert = ({ title, comments, url, reddit_id, user, search_title, created_at, read }) => {
   return db('posts').insert({
     title: title,
     comments: comments,
     url: url,
     reddit_id: reddit_id,
     user: user,
-    read: false,
-    created_at: new Date(),
+    read: read || false,
+    created_at: created_at || new Date(),
     search_title: search_title,
   });
 };

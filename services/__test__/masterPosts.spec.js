@@ -2,11 +2,11 @@ const db = require('../../data/config');
 
 const MasterPostsService = require('../masterPosts.service');
 
-describe('masterPosts model', () => {
-  beforeEach(async () => {
-    await db('master_posts').truncate();
-  });
+beforeEach(async () => {
+  await db('master_posts').truncate();
+});
 
+describe('masterPosts model', () => {
   test('should insert master posts into db', async () => {
     await MasterPostsService.insert([{ id: 1 }]);
     const masterPosts = await db('master_posts');
