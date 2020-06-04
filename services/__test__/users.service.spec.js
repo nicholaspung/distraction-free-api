@@ -11,7 +11,7 @@ beforeEach(async () => {
   await db('users').truncate();
 });
 
-describe('users model', () => {
+describe('#users model', () => {
   test('should insert user into db', async () => {
     await UsersService.insert(setup().user);
     const users = await db('users');
@@ -30,7 +30,9 @@ describe('users model', () => {
     await UsersService.updateLastQueried(setup().user, testDate);
     const testUsers = await db('users');
 
-    expect(testUsers).toEqual([setup({ last_queried: Date.parse(testDate), id: 1 })]);
+    expect(testUsers).toEqual([
+      setup({ last_queried: Date.parse(testDate), id: 1 }),
+    ]);
   });
   test('should delete user from db', async () => {
     await UsersService.insert(setup().user);

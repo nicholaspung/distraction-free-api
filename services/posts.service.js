@@ -12,13 +12,12 @@ const get = (user) => {
 // Not Scalable
 // Currently has duplicate titles
 const getFilteredPosts = async (user) => {
-  // const users = await usersService.get(user);
-  // const { last_queried } = users[0];
   const titles = await titlesService.get(user);
-  // const masterPosts = await masterPostsService.getFromLastQueried(new Date(last_queried));
-  const masterPosts = await masterPostsService.get(user);
+  const masterPosts = await masterPostsService.get();
   const titlesArray = titles.map((item) => item.title);
-  const masterPostsArray = masterPosts.flatMap((item) => JSON.parse(item.reddit_posts));
+  const masterPostsArray = masterPosts.flatMap((item) =>
+    JSON.parse(item.reddit_posts)
+  );
   const redditPosts = uniqueArrOfObj(masterPostsArray, 'reddit_id');
   const searcher = new FuzzySearch(redditPosts, ['title']);
 
@@ -39,20 +38,22 @@ const getFilteredPosts = async (user) => {
 
   async function insertPostsIntoDb(posts) {
     const results = [];
-    posts.forEach(({ title, comments, url, reddit_id, user, search_title, created_at }) => {
-      results.push(
-        insert({
-          title,
-          comments,
-          url,
-          reddit_id,
-          user,
-          read: false,
-          created_at: created_at || new Date(),
-          search_title,
-        })
-      );
-    });
+    posts.forEach(
+      ({ title, comments, url, reddit_id, user, search_title, created_at }) => {
+        results.push(
+          insert({
+            title,
+            comments,
+            url,
+            reddit_id,
+            user,
+            read: false,
+            created_at: created_at || new Date(),
+            search_title,
+          })
+        );
+      }
+    );
     return await Promise.all(results);
   }
 
@@ -63,7 +64,16 @@ const getFilteredPosts = async (user) => {
   return get(user);
 };
 
-const insert = ({ title, comments, url, reddit_id, user, search_title, created_at, read }) => {
+const insert = ({
+  title,
+  comments,
+  url,
+  reddit_id,
+  user,
+  search_title,
+  created_at,
+  read,
+}) => {
   return db('posts').insert({
     title: title,
     comments: comments,
@@ -77,11 +87,17 @@ const insert = ({ title, comments, url, reddit_id, user, search_title, created_a
 };
 
 const update = ({ user, reddit_id, read }) => {
-  return db('posts').where('user', user).where('reddit_id', reddit_id).update({ read: read });
+  return db('posts')
+    .where('user', user)
+    .where('reddit_id', reddit_id)
+    .update({ read: read });
 };
 
 const del = (date) => {
-  return db('posts').where('created_at', '<', date).andWhere('read', true).del();
+  return db('posts')
+    .where('created_at', '<', date)
+    .andWhere('read', true)
+    .del();
 };
 
 const delTitleAndPosts = ({ user, title }) => {

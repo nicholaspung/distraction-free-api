@@ -11,7 +11,7 @@ beforeEach(async () => {
   await db('master_posts').truncate();
 });
 
-describe('masterPosts model', () => {
+describe('#masterPosts model', () => {
   test('should insert master posts into db', async () => {
     await MasterPostsService.insert([setup()]);
     const masterPosts = await db('master_posts');
@@ -45,7 +45,9 @@ describe('masterPosts model', () => {
     await MasterPostsService.insert([setup()], new Date(1));
     await MasterPostsService.insert([setup({ id: 2 })], new Date(2));
     await MasterPostsService.insert([setup({ id: 3 })], new Date('2000-01-01'));
-    const testMasterPosts = await MasterPostsService.getFromLastQueried(new Date('2001-01-01'));
+    const testMasterPosts = await MasterPostsService.getFromLastQueried(
+      new Date('2001-01-01')
+    );
 
     expect(testMasterPosts).toEqual([]);
   });
