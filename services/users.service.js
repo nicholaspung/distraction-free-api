@@ -8,8 +8,10 @@ const insert = (user) => {
   return db('users').insert({ user: user, last_queried: new Date() });
 };
 
-const updateLastQueried = (user) => {
-  return db('users').where('user', user).update({ last_queried: new Date() });
+const updateLastQueried = (user, last_queried) => {
+  return db('users')
+    .where('user', user)
+    .update({ last_queried: last_queried || new Date() });
 };
 
 const del = (user) => {
