@@ -9,7 +9,10 @@ const insert = ({ user, title }) => {
 };
 
 const update = ({ user, id, title }) => {
-  return db('titles').where('user', user).andWhere('id', id).update({ title: title });
+  return db('titles')
+    .where('user', user)
+    .andWhere('id', id)
+    .update({ title: title });
 };
 
 const del = ({ user, title }) => {

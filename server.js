@@ -21,14 +21,16 @@ server.use('/api', router);
 // Sample routes for Auth0
 server.get('/api/public', function (req, res) {
   res.json({
-    message: "Hello from a public endpoint! You don't need to be autheticated to see this.",
+    message:
+      "Hello from a public endpoint! You don't need to be autheticated to see this.",
   });
 });
 
 server.get('/api/private', checkJwt, function (req, res) {
   console.log(req.user);
   res.json({
-    message: 'Hello from a private endpoint! You need to be authenticated to see this.',
+    message:
+      'Hello from a private endpoint! You need to be authenticated to see this.',
   });
 });
 

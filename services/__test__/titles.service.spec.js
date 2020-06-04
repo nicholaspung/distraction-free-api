@@ -12,7 +12,7 @@ beforeEach(async () => {
   await db('titles').truncate();
 });
 
-describe('titles model', () => {
+describe('#titles model', () => {
   test('should insert title into db', async () => {
     await TitlesService.insert(setup());
     const titles = await db('titles');

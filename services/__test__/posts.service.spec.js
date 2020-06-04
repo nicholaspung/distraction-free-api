@@ -24,7 +24,7 @@ beforeEach(async () => {
   await db('users').truncate();
 });
 
-describe('posts model', () => {
+describe('#posts model', () => {
   test('should insert a post into db', async () => {
     await PostsService.insert(setup());
     const posts = await db('posts');

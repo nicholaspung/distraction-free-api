@@ -23,8 +23,15 @@ const getPostsTogether = async (req, res) => {
 
 const insertPost = async (req, res) => {
   try {
-    const { title, comments, url, reddit_id, user } = req.body;
-    await postsService.insert({ title, comments, url, reddit_id, user });
+    const { title, comments, url, reddit_id, user, search_title } = req.body;
+    await postsService.insert({
+      title,
+      comments,
+      url,
+      reddit_id,
+      user,
+      search_title,
+    });
     res.status(201).json({ message: 'Post added to your list.' });
   } catch (err) {
     res.status(500).json({ error: err.toString() });
