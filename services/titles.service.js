@@ -5,14 +5,11 @@ const get = (user) => {
 };
 
 const insert = ({ user, title }) => {
-  return db('titles').insert({ user: user, title: title });
+  return db('titles').insert({ user, title });
 };
 
 const update = ({ user, id, title }) => {
-  return db('titles')
-    .where('user', user)
-    .andWhere('id', id)
-    .update({ title: title });
+  return db('titles').where('user', user).andWhere('id', id).update({ title });
 };
 
 const del = ({ user, title }) => {

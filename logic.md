@@ -31,5 +31,5 @@
 
 - [x] Add documentation to routes
   - https://editor.swagger.io/
-- [] Add testing to API
-- [] Rewrite some of the services to use default in arguments, rather than ||
+- [x] Add testing to API
+- [x] Rewrite some of the services to use default in arguments, rather than ||

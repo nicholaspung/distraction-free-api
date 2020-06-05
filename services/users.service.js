@@ -5,13 +5,11 @@ const get = (user) => {
 };
 
 const insert = (user) => {
-  return db('users').insert({ user: user, last_queried: new Date() });
+  return db('users').insert({ user, last_queried: new Date() });
 };
 
-const updateLastQueried = (user, last_queried) => {
-  return db('users')
-    .where('user', user)
-    .update({ last_queried: last_queried || new Date() });
+const updateLastQueried = (user, last_queried = new Date()) => {
+  return db('users').where('user', user).update({ last_queried });
 };
 
 const del = (user) => {
