@@ -1,6 +1,7 @@
 const request = require('supertest');
 const server = require('../../server');
 
+// Order matters
 describe('#posts routes', () => {
   test('POST /posts', async () => {
     const response = await request(server).post('/api/posts').send({
@@ -31,7 +32,4 @@ describe('#posts routes', () => {
       .send({ date: new Date('2100-01-01') });
     expect(response.status).toEqual(204);
   });
-  test('GET /posts-together', async () => {});
-  test('DELETE /posts-title', async () => {});
-  test('DELETE /posts/:id', async () => {});
 });
