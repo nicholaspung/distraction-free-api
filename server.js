@@ -16,7 +16,7 @@ server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 
 server.use('/api/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-server.use('/api', router);
+server.use('/', router);
 
 // Sample routes for Auth0
 server.get('/api/public', function (req, res) {
