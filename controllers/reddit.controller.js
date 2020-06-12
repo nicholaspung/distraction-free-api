@@ -3,7 +3,7 @@ const redditService = require('../services/reddit.service');
 const getReddit = async (req, res) => {
   try {
     const response = await redditService.get();
-    res.status(200).json({ reddit_posts: response });
+    res.status(200).json({ data: response.data });
   } catch (err) {
     res.status(500).json({ error: err.toString() });
   }
