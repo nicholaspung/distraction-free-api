@@ -2,8 +2,7 @@ const titlesService = require('../services/titles.service');
 
 const getTitles = async (req, res) => {
   try {
-    // somehow get the user, either through body or through Auth0??
-    const { user } = req.body;
+    const { sub: user } = req.user;
     const response = await titlesService.get(user);
     res.status(200).json({ titles: response });
   } catch (err) {
@@ -13,7 +12,8 @@ const getTitles = async (req, res) => {
 
 const insertTitle = async (req, res) => {
   try {
-    const { user, title } = req.body;
+    const { title } = req.body;
+    const { sub: user } = req.user;
     await titlesService.insert({ user, title });
     res.status(201).json({ message: 'Title added to your list.' });
   } catch (err) {
@@ -23,7 +23,8 @@ const insertTitle = async (req, res) => {
 
 const updateTitle = async (req, res) => {
   try {
-    const { user, id, title } = req.body;
+    const { id, title } = req.body;
+    const { sub: user } = req.user;
     await titlesService.update({ user, id, title });
     res.status(200).json({ message: 'Title has been updated.' });
   } catch (err) {
@@ -33,7 +34,8 @@ const updateTitle = async (req, res) => {
 
 const deleteTitle = async (req, res) => {
   try {
-    const { user, title } = req.body;
+    const { title } = req.body;
+    const { sub: user } = req.user;
     await titlesService.del({ user, title });
     res.status(204).send();
   } catch (err) {
