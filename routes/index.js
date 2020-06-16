@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
+// For Auth0
+const checkJwt = require('../lib/middleware/checkJwt');
+
 const masterPostsRouter = require('./masterPosts.routes');
 const postsRouter = require('./posts.routes');
 const titlesRouter = require('./titles.routes');
@@ -8,9 +11,9 @@ const usersRouter = require('./users.routes');
 const redditRouter = require('./reddit.routes');
 
 router.use('/api', masterPostsRouter);
-router.use('/api', postsRouter);
-router.use('/api', titlesRouter);
-router.use('/api', usersRouter);
+router.use('/api', checkJwt, postsRouter);
+router.use('/api', checkJwt, titlesRouter);
+router.use('/api', checkJwt, usersRouter);
 router.use('/', redditRouter);
 
 module.exports = router;
