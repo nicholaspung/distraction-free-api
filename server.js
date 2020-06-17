@@ -28,8 +28,8 @@ server.get('/api/public', function (req, res) {
   });
 });
 
-server.get('/api/private', checkJwt, function (req, res) {
-  console.log(req.user);
+server.post('/api/private', checkJwt, function (req, res) {
+  console.log(req.user, req.body);
   res.json({
     message:
       'Hello from a private endpoint! You need to be authenticated to see this.',
