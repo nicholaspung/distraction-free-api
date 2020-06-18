@@ -15,7 +15,7 @@
 - [x] When user adds a title, add to 'Titles' table
 - [x] When user deletes a title, delete from 'Titles' table
   - [x] Also delete title from 'Posts' table
-- [] When user loads page, get titles from 'Titles' table
+- [x] When user loads page, get titles from 'Titles' table
 
 ## Posts
 
@@ -33,3 +33,7 @@
   - https://editor.swagger.io/
 - [x] Add testing to API
 - [x] Rewrite some of the services to use default in arguments, rather than ||
+- [] Revisit creating posts service, currently creating new posts everytime I refresh page
+- [] Add sorting functionality to grabbing titles
+- [] See if there's a way to stop querying after first load
+- [] Add a streaming element to the API
