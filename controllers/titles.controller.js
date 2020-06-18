@@ -34,7 +34,7 @@ const updateTitle = async (req, res) => {
 
 const deleteTitle = async (req, res) => {
   try {
-    const { title } = req.body;
+    const { title } = req.params;
     const { sub: user } = req.user;
     await titlesService.del({ user, title });
     res.status(204).send();
