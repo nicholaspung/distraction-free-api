@@ -1,5 +1,6 @@
 const db = require('../data/config');
 
+/* API only */
 const get = () => {
   return db('master_posts');
 };

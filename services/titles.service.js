@@ -8,12 +8,13 @@ const insert = ({ user, title }) => {
   return db('titles').insert({ user, title });
 };
 
-const update = ({ user, id, title }) => {
-  return db('titles').where('user', user).andWhere('id', id).update({ title });
-};
-
 const del = ({ user, title }) => {
   return db('titles').where('user', user).andWhere('title', title).del();
+};
+
+/* Used for debugging */
+const update = ({ user, id, title }) => {
+  return db('titles').where('user', user).andWhere('id', id).update({ title });
 };
 
 module.exports = {
