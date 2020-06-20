@@ -9,8 +9,17 @@ const get = (user) => {
   return db('posts').where('user', user).andWhere('read', false);
 };
 
-// Not Scalable
-// Currently has duplicate titles
+/**
+ * Maybe make this call not be added into database? So the idea would be to get masterPostsService.get(),
+ * then titlesService.get(), and filter out the posts that come out from it, and return it without adding
+ * to database. Pros: no need to deal with duplicates, Cons: expensive operation if grabbed a bunch of times.
+ * Or instead of inserting each post individually, we can add an array of the filtered posts with last_queried
+ * field, and update the post array everytime this gets called. Then how is a post updated if it's marked read?
+ * Make it a FE operation? That doesn't seem right. Create a new table for posts read and store the reddit id
+ * that was marked read? Then on postsService.get(), filter out the reddit id that is marked read? Will the excess
+ * reddit ids be deleted on a cron cycle too? On FE, seems like doing a post and get API call is regular, is this
+ * okay?
+ */
 const getFilteredPosts = async (user) => {
   const titles = await titlesService.get(user);
   const masterPosts = await masterPostsService.get();
@@ -102,6 +111,18 @@ const update = ({ user, reddit_id, read }) => {
     .update({ read });
 };
 
+const delTitleAndPosts = ({ user, title }) => {
+  return db.transaction(async (trx) => {
+    await titlesService.del({ user, title }).transacting(trx);
+    await db('posts')
+      .where('search_title', title)
+      .andWhere('user', user)
+      .del()
+      .transacting(trx);
+  });
+};
+
+/* API only */
 const del = (date) => {
   return db('posts')
     .where('created_at', '<', date)
@@ -109,14 +130,7 @@ const del = (date) => {
     .del();
 };
 
-const delTitleAndPosts = ({ user, title }) => {
-  return db.transaction(async (trx) => {
-    await titlesService.del({ user, title }).transacting(trx);
-    await db('posts').where('search_title', title).del().transacting(trx);
-  });
-};
-
-// Only used during debugging
+/* Only used during debugging */
 const delId = (id) => {
   return db('posts').where('id', id).del();
 };
