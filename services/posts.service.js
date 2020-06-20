@@ -19,10 +19,23 @@ const get = (user) => {
  * that was marked read? Then on postsService.get(), filter out the reddit id that is marked read? Will the excess
  * reddit ids be deleted on a cron cycle too? On FE, seems like doing a post and get API call is regular, is this
  * okay?
+ * # of operations: 1, 2, 3, 4
+ * Can use a join for titles and posts read queries?
+ * Instead of saving posts to database, can just cache the data on FE and after a certain amount of time has
+ * passed, do another API call based on FE? Trying to figure out if it's better for FE to give constraints, or
+ * API give constaints? I have a feeling API giving constraints might be better, but it complicates API calls
+ * Modify Post table to only need User|RedditId|Read fields
+ * Do a join between Post table and Titles table on user XXX since data returned will be odd ------------
+ * Do queries for Master Posts, Titles, Post then filter and create data there. Add data to User table as CachedPosts
+ * In controllers, add a date body data (default new Date()) to check if we need to update CachedPosts, otherwise
+ * do a query for User and return CachedPost. Just kidding, can't be cached because the Post read field will be
+ * different very frequently.
+ * No need to save the combined data since it'll always trigger a calculation when marking a post as read.
+ * # of operations: 3 total
  */
 const getFilteredPosts = async (user) => {
-  const titles = await titlesService.get(user);
-  const masterPosts = await masterPostsService.get();
+  const titles = await titlesService.get(user); // 1
+  const masterPosts = await masterPostsService.get(); // 2
   const titlesArray = titles.map((item) => item.title);
   const masterPostsArray = masterPosts.flatMap((item) =>
     JSON.parse(item.reddit_posts)
@@ -75,11 +88,11 @@ const getFilteredPosts = async (user) => {
     return await Promise.all(results);
   }
 
-  await insertPostsIntoDb(filteredPostsWithUser);
+  await insertPostsIntoDb(filteredPostsWithUser); // n
 
-  await usersService.updateLastQueried(user);
+  await usersService.updateLastQueried(user); // 4
 
-  return get(user);
+  return get(user); // 5
 };
 
 const insert = ({
