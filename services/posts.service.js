@@ -1,6 +1,6 @@
 const db = require('../data/config');
 const FuzzySearch = require('fuzzy-search');
-// const usersService = require('./users.service');
+const usersService = require('./users.service');
 const titlesService = require('./titles.service');
 const masterPostsService = require('./masterPosts.service');
 const uniqueArrOfObj = require('../lib/utils/uniqueArrOfObj');
@@ -22,20 +22,14 @@ const getFilteredPosts = async (user) => {
   const searcher = new FuzzySearch(redditPosts, ['title']);
   let filteredPosts = [];
   titlesArray.forEach((title) => {
-    const result = searcher.search(title);
-    if (!readPostsArray.includes(title)) {
-      filteredPosts.push(
-        result.map((post) => {
-          post.search_title = title;
-          return post;
-        })
-      );
-    }
+    const result = searcher
+      .search(title)
+      .filter((post) => !readPostsArray.includes(post.reddit_id));
+    filteredPosts.push(result);
   });
 
-  // await usersService.updateLastQueried(user);
-
-  return filteredPosts;
+  await usersService.updateLastQueried(user);
+  return filteredPosts.flatMap((k) => k);
 };
 
 /* API only */

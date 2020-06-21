@@ -33,7 +33,7 @@
   - https://editor.swagger.io/
 - [x] Add testing to API
 - [x] Rewrite some of the services to use default in arguments, rather than ||
-- [] Revisit creating posts service, currently creating new posts everytime I refresh page
+- [x] Revisit creating posts service, currently creating new posts everytime I refresh page
 - [] Add sorting functionality to grabbing titles
-- [] See if there's a way to stop querying after first load
+- [x] See if there's a way to stop querying after first load
 - [] Add a streaming element to the API

@@ -1,15 +1,5 @@
 const postsService = require('../services/posts.service');
 
-const getPosts = async (req, res) => {
-  try {
-    const { sub: user } = req.user;
-    const response = await postsService.get(user);
-    res.status(200).json({ posts: response });
-  } catch (err) {
-    res.status(500).json({ error: err.toString() });
-  }
-};
-
 const getPostsTogether = async (req, res) => {
   try {
     const { sub: user } = req.user;
@@ -22,15 +12,12 @@ const getPostsTogether = async (req, res) => {
 
 const insertPost = async (req, res) => {
   try {
-    const { title, comments, url, reddit_id, search_title } = req.body;
+    const { reddit_id, read } = req.body;
     const { sub: user } = req.user;
     await postsService.insert({
-      title,
-      comments,
-      url,
       reddit_id,
       user,
-      search_title,
+      read,
     });
     res.status(201).json({ message: 'Post added to your list.' });
   } catch (err) {
@@ -38,39 +25,29 @@ const insertPost = async (req, res) => {
   }
 };
 
-const updatePost = async (req, res) => {
-  try {
-    const { reddit_id, read } = req.body;
-    const { sub: user } = req.user;
-    await postsService.update({ user, reddit_id, read });
-    res.status(200).json({ message: 'Post has been updated.' });
-  } catch (err) {
-    res.status(500).json({ error: err.toString() });
-  }
-};
-
+/* API only */
 const deletePosts = async (req, res) => {
   try {
     const { date } = req.body;
-    await postsService.del(date);
+    const { user } = req.user;
+    await postsService.del({ date, user });
     res.status(204).send();
   } catch (err) {
     res.status(500).json({ error: err.toString() });
   }
 };
 
-const deleteTitleAndPosts = async (req, res) => {
+/* Only used during debugging */
+const getPosts = async (req, res) => {
   try {
-    const { title } = req.body;
     const { sub: user } = req.user;
-    await postsService.delTitleAndPosts({ user, title });
-    res.status(204).send();
+    const response = await postsService.get(user);
+    res.status(200).json({ posts: response });
   } catch (err) {
     res.status(500).json({ error: err.toString() });
   }
 };
 
-// Only used during debugging
 const deletePostById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -85,8 +62,6 @@ module.exports = {
   getPosts,
   getPostsTogether,
   insertPost,
-  updatePost,
   deletePosts,
-  deleteTitleAndPosts,
   deletePostById,
 };

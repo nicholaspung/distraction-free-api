@@ -2,14 +2,14 @@ const express = require('express');
 const router = express.Router();
 const postsController = require('../controllers/posts.controller');
 
-router.get('/posts', postsController.getPosts);
+router.get('/posts', postsController.getPostsTogether);
 router.post('/posts', postsController.insertPost);
-router.put('/posts', postsController.updatePost);
-router.delete('/posts', postsController.deletePosts);
 
-// Only used during debugging
-router.get('/posts-together', postsController.getPostsTogether);
-router.delete('/posts-title', postsController.deleteTitleAndPosts);
-router.delete('/posts/:id', postsController.deletePostById);
+/* API only */
+// router.delete('/posts', postsController.deletePosts);
+
+/* Only used during debugging */
+// router.get('/posts', postsController.getPosts);
+// router.delete('/posts/:id', postsController.deletePostById);
 
 module.exports = router;

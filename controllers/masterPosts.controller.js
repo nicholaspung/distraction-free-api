@@ -1,5 +1,6 @@
 const masterPostsService = require('../services/masterPosts.service.js');
 
+/* API only */
 const getPosts = async (req, res) => {
   try {
     const response = await masterPostsService.get();
