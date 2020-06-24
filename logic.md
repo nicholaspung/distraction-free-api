@@ -22,8 +22,6 @@
 - [x] When user has initial load on page for first day, do a join between 'Users', 'Titles', and 'Master Posts' tables
   - [x] This is then added to the 'Post' table
   - [x] User has a 'last_queried' field that is then used to minimize amount of searching needed to do
-- [x] When user decides to reload reddit posts, they can request it again
-  - [] User also has option to check or uncheck if they want the latest posts everytime they load the page
 - [x] When user has marked a post read, update posts table
 - [x] When user requests posts, filter to where read boolean equal to false
 

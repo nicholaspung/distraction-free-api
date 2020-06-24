@@ -4,6 +4,10 @@ const get = (user) => {
   return db('titles').where('user', user);
 };
 
+const getSorted = (user) => {
+  return db('titles').where('user', user).orderBy('title', 'asc');
+};
+
 const insert = ({ user, title }) => {
   return db('titles').insert({ user, title });
 };
@@ -19,6 +23,7 @@ const update = ({ user, id, title }) => {
 
 module.exports = {
   get,
+  getSorted,
   insert,
   update,
   del,
