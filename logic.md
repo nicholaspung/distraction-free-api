@@ -35,3 +35,5 @@
 - [x] Add sorting functionality to grabbing titles
 - [x] See if there's a way to stop querying after first load
 - [] Add a streaming element to the API
+- [] See if I should be encrypting data
+- [] Add current reddit posts when getting from read_posts
