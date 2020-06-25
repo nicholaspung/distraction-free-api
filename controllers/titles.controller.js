@@ -3,7 +3,7 @@ const titlesService = require('../services/titles.service');
 const getTitles = async (req, res) => {
   try {
     const { sub: user } = req.user;
-    const response = await titlesService.get(user);
+    const response = await titlesService.getSorted(user);
     res.status(200).json({ titles: response });
   } catch (err) {
     res.status(500).json({ error: err.toString() });

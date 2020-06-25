@@ -1,9 +1,5 @@
 const db = require('../data/config');
 
-const get = (user) => {
-  return db('titles').where('user', user);
-};
-
 const getSorted = (user) => {
   return db('titles').where('user', user).orderBy('title', 'asc');
 };
@@ -17,6 +13,10 @@ const del = ({ user, title }) => {
 };
 
 /* Used for debugging */
+const get = (user) => {
+  return db('titles').where('user', user);
+};
+
 const update = ({ user, id, title }) => {
   return db('titles').where('user', user).andWhere('id', id).update({ title });
 };
