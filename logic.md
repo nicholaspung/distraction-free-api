@@ -34,6 +34,12 @@
 - [x] Revisit creating posts service, currently creating new posts everytime I refresh page
 - [x] Add sorting functionality to grabbing titles
 - [x] See if there's a way to stop querying after first load
+- [x] Add current reddit posts when getting from read_posts
+
+  - [x] Need to make the result unique
+
 - [] Add a streaming element to the API
 - [] See if I should be encrypting data
-- [] Add current reddit posts when getting from read_posts
+- [] Update tests
+- [] Add more cron jobs to delete unneeded data
+- [] Maybe add analytics on how many titles have been read per week?
