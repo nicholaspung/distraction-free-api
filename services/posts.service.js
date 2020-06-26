@@ -11,9 +11,11 @@ const insert = ({ user, reddit_id, read, date = new Date() }) => {
 };
 
 const getFilteredPosts = async (user) => {
-  const titles = await titlesService.get(user);
-  const masterPosts = await masterPostsService.get();
-  const readPosts = await get(user);
+  const titlesArray = (await titlesService.get(user)).map((item) => item.title);
+  const masterPostsArray = (await masterPostsService.get()).flatMap((item) =>
+    JSON.parse(item.reddit_posts)
+  );
+  const readPostsArray = (await get(user)).map((item) => item.reddit_id);
   const currentRedditPosts = (
     await redditPostsService.get()
   ).data.data.children.map((post) => ({
@@ -22,12 +24,7 @@ const getFilteredPosts = async (user) => {
     url: post.data.url ? post.data.url : '',
     reddit_id: post.data.id,
   }));
-  const titlesArray = titles.map((item) => item.title);
-  const masterPostsArray = masterPosts.flatMap((item) =>
-    JSON.parse(item.reddit_posts)
-  );
   const combinedRedditPosts = masterPostsArray.concat(currentRedditPosts);
-  const readPostsArray = readPosts.map((item) => item.reddit_id);
   const redditPosts = uniqueArrOfObj(combinedRedditPosts, 'reddit_id');
   const searcher = new FuzzySearch(redditPosts, ['title']);
   let filteredPosts = [];
@@ -37,9 +34,16 @@ const getFilteredPosts = async (user) => {
       .filter((post) => !readPostsArray.includes(post.reddit_id));
     filteredPosts.push(result);
   });
+  const uniqueStore = {};
+  filteredPosts = filteredPosts.flat().map((k) => {
+    if (!uniqueStore[k.reddit_id]) {
+      uniqueStore[k.reddit_id] = true;
+      return k;
+    }
+  });
 
   await usersService.updateLastQueried(user);
-  return filteredPosts.flatMap((k) => k);
+  return filteredPosts;
 };
 
 /* API only */

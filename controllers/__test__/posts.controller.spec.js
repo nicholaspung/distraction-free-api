@@ -5,19 +5,16 @@ const server = require('../../server');
 describe('#posts routes', () => {
   test('POST /posts', async () => {
     const response = await request(server).post('/api/posts').send({
-      title: 'hi',
-      comments: 'http://comments',
-      url: 'http://url',
       reddit_id: 1,
       user: 'test',
-      search_title: 'hi',
+      read: true,
     });
     expect(response.status).toEqual(201);
   });
   test('GET /posts', async () => {
     const response = await request(server)
       .get('/api/posts')
-      .send({ user: 'test ' });
+      .send({ user: 'test' });
     expect(response.status).toEqual(200);
   });
   test('PUT /posts', async () => {
