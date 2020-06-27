@@ -1,11 +1,13 @@
-const request = require('supertest');
 const server = require('../../server');
+const request = require('supertest');
 
-describe('#users routes', () => {
+const testToken = process.env.TEST_TOKEN;
+
+describe.only('#users routes', () => {
   test('GET /users', async () => {
     const response = await request(server)
       .get('/api/users')
-      .send({ user: 'test' });
+      .set({ Authorization: `Bearer ${testToken}` });
     expect(response.status).toEqual(200);
   });
   test('POST /users', async () => {
