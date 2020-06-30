@@ -1,10 +1,8 @@
 const db = require('../../data/config');
 
 const PostsService = require('../posts.service');
-const RedditService = require('../reddit.service');
 const MasterPostsService = require('../masterPosts.service');
 const TitlesService = require('../titles.service');
-const UsersService = require('../users.service');
 
 const setup = (overrides = {}) => ({
   reddit_id: 'a',
@@ -30,6 +28,7 @@ describe('#read_posts model', () => {
     expect(posts).toHaveLength(1);
   });
   test('should get filtered posts from db', async () => {
+    // Expects only one item in array because read_post was inserted beforehand and uses reddit_id
     await PostsService.insert(setup());
     await MasterPostsService.insert([
       setup({ title: 'let bye', reddit_id: 'b' }),
@@ -41,18 +40,18 @@ describe('#read_posts model', () => {
       title: '98uvsd nkj3 5',
     });
     const readPosts = await PostsService.getFilteredPosts('test');
-    // Expects only one item in array because read_post was inserted beforehand
     expect(readPosts).toEqual([
       setup({
         title: '98uvsd nkj3 5412412',
         reddit_id: 'c',
-        date: `"${new Date('2000-01-01')}"`,
+        // date: new Date('2000-01-01'),
+        date: '2000-01-01T00:00:00.000Z',
       }),
     ]);
   });
   test('should delete posts older than a date and where read field is true from db', async () => {
     await PostsService.insert(setup());
-    await PostsService.del({ user: 'test', date: new Date() });
+    await PostsService.del(new Date());
     const posts = await db('read_posts');
 
     expect(posts).toHaveLength(0);

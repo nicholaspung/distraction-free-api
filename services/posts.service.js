@@ -16,9 +16,7 @@ const getFilteredPosts = async (user) => {
     JSON.parse(item.reddit_posts)
   );
   const readPostsArray = (await get(user)).map((item) => item.reddit_id);
-  const currentRedditPosts = (
-    await redditPostsService.get()
-  ).data.data.children.map((post) => ({
+  const currentRedditPosts = (await redditPostsService.get()).map((post) => ({
     title: post.data.title,
     comments: `https://www.reddit.com${post.data.permalink}`,
     url: post.data.url ? post.data.url : '',
@@ -41,15 +39,14 @@ const getFilteredPosts = async (user) => {
       return k;
     }
   });
-  console.log(filteredPosts);
 
   await usersService.updateLastQueried(user);
   return filteredPosts;
 };
 
 /* API only */
-const del = ({ user, date }) => {
-  return db('read_posts').where('user', user).andWhere('date', '<', date).del();
+const del = (date) => {
+  return db('read_posts').where('date', '<', date).andWhere('read', true).del();
 };
 
 /* Only used during debugging */

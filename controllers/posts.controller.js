@@ -29,8 +29,7 @@ const insertPost = async (req, res) => {
 const deletePosts = async (req, res) => {
   try {
     const { date } = req.body;
-    const { user } = req.user;
-    await postsService.del({ date, user });
+    await postsService.del(date);
     res.status(204).send();
   } catch (err) {
     res.status(500).json({ error: err.toString() });
