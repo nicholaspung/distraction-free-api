@@ -32,7 +32,9 @@ const axios = require('axios');
 const get = async () => {
   // const { data: access_token } = await loginToRedditScript();
   // return await fetchSubreddit('manga', access_token);
-  return axios.get('https://www.reddit.com/r/manga.json');
+  return axios
+    .get('https://www.reddit.com/r/manga.json')
+    .then((res) => res.data.data.children);
 };
 
 module.exports = {
