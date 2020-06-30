@@ -41,6 +41,7 @@ const getFilteredPosts = async (user) => {
       return k;
     }
   });
+  console.log(filteredPosts);
 
   await usersService.updateLastQueried(user);
   return filteredPosts;

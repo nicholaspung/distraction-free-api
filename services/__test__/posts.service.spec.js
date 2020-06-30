@@ -7,21 +7,22 @@ const TitlesService = require('../titles.service');
 const UsersService = require('../users.service');
 
 const setup = (overrides = {}) => ({
-  reddit_id: 1,
+  reddit_id: 'a',
   user: 'test',
   read: true,
   date: new Date('2000-01-01'),
   ...overrides,
 });
 
-beforeEach(async () => {
-  await db('read_posts').truncate();
-  await db('titles').truncate();
-  await db('master_posts').truncate();
-  await db('users').truncate();
-});
-
+/** Order matters */
 describe('#read_posts model', () => {
+  beforeEach(async () => {
+    await db('read_posts').truncate();
+    await db('titles').truncate();
+    await db('master_posts').truncate();
+    await db('users').truncate();
+  });
+
   test('should insert a read_post into db', async () => {
     await PostsService.insert(setup());
     const posts = await db('read_posts');
@@ -31,13 +32,23 @@ describe('#read_posts model', () => {
   test('should get filtered posts from db', async () => {
     await PostsService.insert(setup());
     await MasterPostsService.insert([
-      setup({ title: 'let bye' }),
-      setup({ title: 'bye until' }),
-      setup({ title: 'let hi' }),
+      setup({ title: 'let bye', reddit_id: 'b' }),
+      setup({ title: '98uvsd nkj3 5412412', reddit_id: 'c' }),
+      setup({ title: '98uvsd nkj3 5' }),
     ]);
-    await TitlesService.insert({ user: 'test', title: 'hi' });
+    await TitlesService.insert({
+      user: 'test',
+      title: '98uvsd nkj3 5',
+    });
     const readPosts = await PostsService.getFilteredPosts('test');
-    expect(readPosts).toEqual([setup({ title: 'let hi' })]);
+    // Expects only one item in array because read_post was inserted beforehand
+    expect(readPosts).toEqual([
+      setup({
+        title: '98uvsd nkj3 5412412',
+        reddit_id: 'c',
+        date: `"${new Date('2000-01-01')}"`,
+      }),
+    ]);
   });
   test('should delete posts older than a date and where read field is true from db', async () => {
     await PostsService.insert(setup());
