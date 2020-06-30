@@ -41,6 +41,6 @@
 - [] Add a streaming element to the API
 - [] See if I should be encrypting data
 - [] Update tests
-  - [] Go an Auth0 machine test auth call, to grab token and also to set token
+  - [x] Go an Auth0 machine test auth call, to grab token and also to set token
 - [] Add more cron jobs to delete unneeded data
 - [] Maybe add analytics on how many titles have been read per week?

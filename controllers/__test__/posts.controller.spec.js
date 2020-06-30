@@ -1,32 +1,47 @@
+const axios = require('axios');
+require('dotenv').config();
 const request = require('supertest');
 const server = require('../../server');
 
-// Order matters
+/** Only works when connected to internet
+ *  Order matters
+ */
 describe('#posts routes', () => {
-  test('POST /posts', async () => {
-    const response = await request(server).post('/api/posts').send({
-      reddit_id: 1,
-      user: 'test',
-      read: true,
+  let testToken = '';
+
+  beforeAll(() => {
+    const data = {
+      grant_type: 'client_credentials',
+      client_id: process.env.AUTH0_CLIENT_ID,
+      client_secret: process.env.AUTH0_CLIENT_SECRET,
+      audience: process.env.AUTH0_AUDIENCE,
+    };
+    const options = {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      data,
+      url: `${process.env.AUTH0_DOMAIN}/oauth/token`,
+    };
+    return axios(options).then((res) => {
+      testToken = res.data.access_token;
     });
+  });
+
+  test('POST /posts', async () => {
+    const response = await request(server)
+      .post('/api/posts')
+      .set('Authorization', `Bearer ${testToken}`)
+      .send({
+        reddit_id: 1,
+        user: 'test',
+        read: true,
+      });
     expect(response.status).toEqual(201);
   });
   test('GET /posts', async () => {
     const response = await request(server)
       .get('/api/posts')
-      .send({ user: 'test' });
+      .set('Authorization', `Bearer ${testToken}`);
     expect(response.status).toEqual(200);
-  });
-  test('PUT /posts', async () => {
-    const response = await request(server)
-      .put('/api/posts')
-      .send({ user: 'test', reddit_id: 1, read: true });
-    expect(response.status).toEqual(200);
-  });
-  test('DELETE /posts', async () => {
-    const response = await request(server)
-      .delete('/api/posts')
-      .send({ date: new Date('2100-01-01') });
-    expect(response.status).toEqual(204);
   });
 });
