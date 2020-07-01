@@ -27,6 +27,9 @@
 
 # To-dos
 
+- [-] Maybe add analytics on how many titles have been read per week? (put on front end)
+- [-] Add a streaming element to the API
+
 - [x] Add documentation to routes
   - https://editor.swagger.io/
 - [x] Add testing to API
@@ -35,14 +38,11 @@
 - [x] Add sorting functionality to grabbing titles
 - [x] See if there's a way to stop querying after first load
 - [x] Add current reddit posts when getting from read_posts
-
   - [x] Need to make the result unique
-
-- [] Add a streaming element to the API
-- [] See if I should be encrypting data
 - [x] Update tests
   - [x] Go an Auth0 machine test auth call, to grab token and also to set token
 - [x] Add more cron jobs to delete unneeded data
-- [] Maybe add analytics on how many titles have been read per week?
-- [] Add a logger
+- [x] Add a logger
+
+- [] See if I should be encrypting data
 - [] Refactor out the subreddit name
