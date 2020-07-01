@@ -33,12 +33,15 @@ const getFilteredPosts = async (user) => {
     filteredPosts.push(result);
   });
   const uniqueStore = {};
-  filteredPosts = filteredPosts.flat().map((k) => {
-    if (!uniqueStore[k.reddit_id]) {
-      uniqueStore[k.reddit_id] = true;
-      return k;
-    }
-  });
+  filteredPosts = filteredPosts
+    .flat()
+    .map((k) => {
+      if (!uniqueStore[k.reddit_id]) {
+        uniqueStore[k.reddit_id] = true;
+        return k;
+      }
+    })
+    .filter((k) => k);
 
   await usersService.updateLastQueried(user);
   return filteredPosts;
