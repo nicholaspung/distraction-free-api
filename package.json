@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node app.js",
     "test": "cross-env DB_ENV=testing jest --runInBand --detectOpenHandles",
-    "test:watch": "cross-env DB_ENV=testing jest --watch --runInBand --detectOpenHandles --verbose false"
+    "test:watch": "cross-env DB_ENV=testing jest --watch --runInBand --detectOpenHandles --verbose false",
+    "test:cov": "cross-env DB_ENV=testing jest --runInBand --detectOpenHandles --coverage"
   },
   "author": "",
   "license": "ISC",
