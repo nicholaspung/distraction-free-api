@@ -4,6 +4,8 @@
 
 The server that stores data to be used in [distraction-free-fe](https://github.com/nicholaspung/distraction-free-fe). Stores titles for users and grabs Reddit subreddit data. Runs cron cycles to delete old data.
 
+Note: tested on Node v12.17.0
+
 ## Key Features
 
 - Saves titles for user
