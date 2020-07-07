@@ -38,57 +38,48 @@ const get = async () => {
     .then((res) => res.data.data.children);
 };
 
-const getWebsites = async () => {
+const getWebsites = () => {
   const result = [];
-  let $, websiteData, mediaContent;
-
-  websiteData = await axios.get('https://reaperscans.com/home');
-  $ = cheerio.load(websiteData.data);
-  mediaContent = $('.media-content');
-  for (let i = 0; i < 8; i += 1) {
-    result.push(mediaContent[i].attribs.href);
-  }
-  websiteData = await axios.get('https://leviatanscans.com/home');
-  $ = cheerio.load(websiteData.data);
-  mediaContent = $('.media-content');
-  for (let i = 0; i < 8; i += 1) {
-    result.push(mediaContent[i].attribs.href);
-  }
-  websiteData = await axios.get('https://zeroscans.com/home');
-  $ = cheerio.load(websiteData.data);
-  mediaContent = $('.media-content');
-  for (let i = 0; i < 8; i += 1) {
-    result.push(mediaContent[i].attribs.href);
-  }
-  websiteData = await axios.get('https://edelgardescans.com/home');
-  $ = cheerio.load(websiteData.data);
-  mediaContent = $('.media-content');
-  for (let i = 0; i < 8; i += 1) {
-    result.push(mediaContent[i].attribs.href);
-  }
-  websiteData = await axios.get('https://hatigarmscanz.net/home');
-  $ = cheerio.load(websiteData.data);
-  mediaContent = $('.media-content');
-  for (let i = 0; i < 8; i += 1) {
-    result.push(mediaContent[i].attribs.href);
-  }
 
   const capitalize = (s) => {
     if (typeof s !== 'string') return '';
     return s.charAt(0).toUpperCase() + s.slice(1);
   };
 
-  return result.map((url) => {
-    let title = url.split('/');
-    let chapter = title[6];
-    title = title[4].split('-');
-    return {
-      url,
-      title: `${title
-        .splice(1, title.length - 1)
-        .map((word) => capitalize(word))
-        .join(' ')} ch. ${chapter}`,
-    };
+  const websites = [
+    'https://reaperscans.com/home',
+    'https://leviatanscans.com/home',
+    'https://zeroscans.com/home',
+    'https://edelgardescans.com/home',
+    'https://hatigarmscanz.net/home',
+  ];
+
+  let promises = [];
+  websites.forEach((website) => {
+    promises.push(axios.get(website));
+  });
+  return Promise.all(promises).then((res) => {
+    let $, mediaContent;
+    res.forEach((websiteData) => {
+      $ = cheerio.load(websiteData.data);
+      mediaContent = $('.media-content');
+      for (let i = 0; i < 8; i += 1) {
+        result.push(mediaContent[i].attribs.href);
+      }
+    });
+
+    return result.map((url) => {
+      let title = url.split('/');
+      let chapter = title[6];
+      title = title[4].split('-');
+      return {
+        url,
+        title: `${title
+          .splice(1, title.length - 1)
+          .map((word) => capitalize(word))
+          .join(' ')} ch. ${chapter}`,
+      };
+    });
   });
 };
 
