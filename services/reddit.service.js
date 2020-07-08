@@ -83,7 +83,21 @@ const getWebsites = async () => {
   });
 };
 
+const getWebsite = () =>
+  axios.get('https://reaperscans.com').then((res) => {
+    let result = [],
+      $,
+      mediaContent;
+    $ = cheerio.load(res.data);
+    mediaContent = $('.media-content');
+    for (let i = 0; i < 8; i += 1) {
+      result.push(mediaContent[i].attribs.href);
+    }
+    return result;
+  });
+
 module.exports = {
   get,
   getWebsites,
+  getWebsite,
 };

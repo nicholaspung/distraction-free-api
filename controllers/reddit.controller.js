@@ -18,4 +18,13 @@ const getWebsites = async (req, res) => {
   }
 };
 
-module.exports = { getReddit, getWebsites };
+const getWebsite = async (req, res) => {
+  try {
+    const response = await redditService.getWebsite();
+    res.status(200).json({ data: response });
+  } catch (err) {
+    res.status(500).json({ error: err.toString() });
+  }
+};
+
+module.exports = { getReddit, getWebsites, getWebsite };
