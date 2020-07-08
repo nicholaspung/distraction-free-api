@@ -38,7 +38,7 @@ const get = async () => {
     .then((res) => res.data.data.children);
 };
 
-const getWebsites = () => {
+const getWebsites = async () => {
   const result = [];
 
   const capitalize = (s) => {
